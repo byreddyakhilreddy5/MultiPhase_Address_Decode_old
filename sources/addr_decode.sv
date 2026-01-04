@@ -1,3 +1,5 @@
+	imescale 1ns / 1ps
+
 module addr_decode (
     input  wire        clk,
     input  wire        rst_n,        // active-low reset
