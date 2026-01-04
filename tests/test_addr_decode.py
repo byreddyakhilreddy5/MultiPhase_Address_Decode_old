@@ -110,7 +110,7 @@ async def test_addr_decode_registered(dut):
     """Test registered addr_decode with 1-cycle latency and asynchronous reset"""
 
     # Start clock (10 ns period)
-    cocotb.start_soon(Clock(dut.clk, 10, units="ns").start())
+    cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
 
     # Initialize inputs
     dut.address_P0.value = 0
@@ -124,7 +124,7 @@ async def test_addr_decode_registered(dut):
 
     # Apply asynchronous active-low reset (without waiting for clock edge)
     dut.rst_n.value = 0
-    await Timer(5, units="ns")  # Small delay to allow async reset to propagate
+    await Timer(5, unit="ns")  # Small delay to allow async reset to propagate
     
     # Verify outputs are reset immediately (asynchronous reset behavior)
     assert dut.addr_out.value.integer == 0, "addr_out should be 0 during async reset"
@@ -132,7 +132,7 @@ async def test_addr_decode_registered(dut):
     
     # Wait for a clock edge while reset is still active
     await RisingEdge(dut.clk)
-    await Timer(1, units="ns")  # Small delay after clock edge
+    await Timer(1, unit="ns")  # Small delay after clock edge
     
     # Verify outputs remain reset
     assert dut.addr_out.value.integer == 0, "addr_out should remain 0 during reset"
@@ -140,7 +140,7 @@ async def test_addr_decode_registered(dut):
     
     # Deassert reset (asynchronous)
     dut.rst_n.value = 1
-    await Timer(5, units="ns")  # Small delay to allow reset deassertion to propagate
+    await Timer(5, unit="ns")  # Small delay to allow reset deassertion to propagate
     
     # Wait for one clock cycle after reset deassertion
     await RisingEdge(dut.clk)
@@ -213,13 +213,13 @@ async def test_cs_p3_to_cs_p0_wraparound(dut):
     """Test that if cs_P3 is low, then cs_P0 must be high in the next cycle"""
     
     # Start clock (10 ns period)
-    cocotb.start_soon(Clock(dut.clk, 10, units="ns").start())
+    cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
     
     # Apply reset
     dut.rst_n.value = 0
-    await Timer(5, units="ns")
+    await Timer(5, unit="ns")
     dut.rst_n.value = 1
-    await Timer(5, units="ns")
+    await Timer(5, unit="ns")
     await RisingEdge(dut.clk)
     
     # Test case 1: cs_P3 is low, next cycle cs_P0 must be high
@@ -322,13 +322,13 @@ async def test_address_inversion_logic(dut):
     """Test address inversion based on cs values"""
     
     # Start clock (10 ns period)
-    cocotb.start_soon(Clock(dut.clk, 10, units="ns").start())
+    cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
     
     # Apply reset
     dut.rst_n.value = 0
-    await Timer(5, units="ns")
+    await Timer(5, unit="ns")
     dut.rst_n.value = 1
-    await Timer(5, units="ns")
+    await Timer(5, unit="ns")
     await RisingEdge(dut.clk)
     
     # Test case 1: cs_P0 is low, address_P0 and address_P1 should be inverted
